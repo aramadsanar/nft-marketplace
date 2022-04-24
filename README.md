@@ -16,3 +16,5 @@ This app is written in a la MVVM style, where the business logic is separated fr
 - Business logic code is written in ./view_models
 - GUI code is written in ./pages
 - Components are written in ./components
+
+Only export states and functions from view model that are used by GUI code, otherwise, prepend the function name with underscore ```_``` to mark it as private

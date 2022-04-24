@@ -1,4 +1,3 @@
-/* pages/index.js */
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
@@ -16,11 +15,11 @@ function useIndex() {
     const [nfts, _setNfts] = useState([])
     const [loadingState, _setLoadingState] = useState(notLoaded)
     useEffect(() => {
-        loadNFTs()
+        _loadNFTs()
     }, [])
 
 
-    async function loadNFTs() {
+    async function _loadNFTs() {
         const provider = new ethers.providers.JsonRpcProvider()
         const contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, provider)
         const data = await contract.fetchMarketItems()
@@ -67,12 +66,12 @@ function useIndex() {
         })
         await transaction.wait()
 
-        loadNFTs()
+        _loadNFTs()
     }
 
     return {
         nfts, loadingState,
-        loadNFTs, buyNFT,
+        buyNFT,
     }
 }
 
