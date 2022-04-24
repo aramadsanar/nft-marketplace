@@ -3,7 +3,7 @@ import useResellNFT from '../view_models/resell_nft_view_model'
 
 export default function ResellNFT() {
     const {
-        image,
+        image, formInput,
         updateFormInput, listNFTForSale
     } = useResellNFT()
 

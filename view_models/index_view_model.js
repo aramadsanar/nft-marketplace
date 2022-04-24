@@ -45,7 +45,7 @@ function useIndex() {
     function _buildMarketItemDescription(marketItem, meta, price) {
         return {
             price,
-            tokenID: marketItem.tokenId.toNumber(),
+            tokenId: marketItem.tokenId.toNumber(),
             seller: marketItem.seller,
             owner: marketItem.owner,
             image: meta.data.image,
@@ -61,12 +61,11 @@ function useIndex() {
         const signer = provider.getSigner()
         const contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
 
-        const price = ethers.utils.parseEther('1')
-        const trx = await contract.createMarketSale(nft.tokenId, {
+        const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')
+        const transaction = await contract.createMarketSale(nft.tokenId, {
             value: price
         })
-
-        await trx.wait()
+        await transaction.wait()
 
         loadNFTs()
     }

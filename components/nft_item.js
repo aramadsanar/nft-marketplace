@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 
 const NFTItem = ({ nft, onClick }) => {
-    console.log(onClick)
     return (<div className="border shadow rounded-xl overflow-hidden">
         <img src={nft.image} alt="Image for nft item" />
         <div className="p-4">

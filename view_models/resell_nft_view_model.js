@@ -48,7 +48,7 @@ function useResellNFT() {
     }
 
     return {
-        image,
+        image, formInput,
         updateFormInput, listNFTForSale
     }
 }

@@ -34,7 +34,7 @@ function useMyNFTs() {
         const data = await marketplaceContract.fetchMyNFTs()
 
         const items = await Promise.all(
-            data.map((marketItem, i) => _parseMarketItem(contract, marketItem))
+            data.map((marketItem, i) => _parseMarketItem(marketplaceContract, marketItem))
         )
 
         _setNfts(items)
@@ -42,23 +42,27 @@ function useMyNFTs() {
     }
 
     async function _parseMarketItem(contract, marketItem) {
-        const tokenURI = await contract.tokenURI(marketItem.tokenID)
+        const tokenURI = await contract.tokenURI(marketItem.tokenId)
         const meta = await axios.get(tokenURI)
 
         let price = parsePrice(marketItem)
+        const buildMarketItemParams = {
+            marketItem, meta, price, tokenURI
+        }
 
-        return _buildMarketItemDescription(marketItem, meta, price)
+        return _buildMarketItemDescription(buildMarketItemParams)
     }
 
-    function _buildMarketItemDescription(marketItem, meta, price) {
+    function _buildMarketItemDescription({ marketItem, meta, price, tokenURI }) {
         return {
             price,
-            tokenID: marketItem.tokenId.toNumber(),
+            tokenId: marketItem.tokenId.toNumber(),
             seller: marketItem.seller,
             owner: marketItem.owner,
             image: meta.data.image,
             name: meta.data.name,
             description: meta.data.description,
+            tokenURI
         }
     }
 
