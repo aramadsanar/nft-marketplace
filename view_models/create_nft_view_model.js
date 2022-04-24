@@ -4,14 +4,13 @@ import { create as ipfsHttpClient } from 'ipfs-http-client'
 import { useRouter } from 'next/router'
 import Web3Modal from 'web3modal'
 
-const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
-
 import {
     marketplaceAddress
 } from '../config'
 
 import NFTMarketplace from '../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json'
 
+const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
 
 export function useCreateNFT() {
     const [fileUrl, _setFileUrl] = useState(null)
@@ -34,7 +33,9 @@ export function useCreateNFT() {
 
     async function _uploadToIPFS() {
         const { name, description, price } = formInput
-        if (!name || !description || !price || !fileUrl) return
+        if (!name || !description || !price || !fileUrl) {
+            return
+        }
 
         const data = JSON.stringify({
             name, description,
@@ -64,7 +65,7 @@ export function useCreateNFT() {
         let contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
         let listingPrice = await contract.getListingPrice()
         listingPrice = listingPrice.toString()
-
+        console.log('price ' + price + '\n\n\n')
         let transaction = await contract.createToken(url, price, {
             value: listingPrice
         })

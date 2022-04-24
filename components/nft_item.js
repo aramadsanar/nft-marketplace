@@ -1,5 +1,6 @@
 const NFTItem = (nft, onClick) => {
-    return (<div key={i} className="border shadow rounded-xl overflow-hidden">
+    console.log(onClick)
+    return (<div className="border shadow rounded-xl overflow-hidden">
         <img src={nft.image} />
         <div className="p-4">
             <p style={{ height: '64px' }} className="text-2xl font-semibold">{nft.name}</p>

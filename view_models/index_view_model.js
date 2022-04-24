@@ -12,8 +12,8 @@ import {
 import NFTMarketplace from '../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json'
 
 function useIndex() {
-    const [nfts, setNfts] = useState([])
-    const [loadingState, setLoadingState] = useState(notLoaded)
+    const [nfts, _setNfts] = useState([])
+    const [loadingState, _setLoadingState] = useState(notLoaded)
     useEffect(() => {
         loadNFTs()
     }, [])
@@ -25,16 +25,16 @@ function useIndex() {
         const data = await contract.fetchMarketItems()
 
         const items = await Promise.all(
-            marketItems.map(_parseMarketItem)
+            data.map((marketItem, i) => _parseMarketItem(contract, marketItem))
         )
 
-        setNfts(items)
-        setLoadingState(loaded)
+        _setNfts(items)
+        _setLoadingState(loaded)
     }
 
-    async function _parseMarketItem(marketItem) {
-        const tokenURI = await contract.tokenURI(marketItem.tokenID)
-        const meta = await axios.get(tokenUri)
+    async function _parseMarketItem(contract, marketItem) {
+        const tokenURI = await contract.tokenURI(marketItem.tokenId)
+        const meta = await axios.get(tokenURI)
 
         let price = _parsePrice(marketItem)
 
@@ -59,8 +59,9 @@ function useIndex() {
         const provider = new ethers.providers.Web3Provider(connection)
         const signer = provider.getSigner()
         const contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
-
-        const price = _parsePrice(nft)
+        console.log(nft)
+        console.log(nft.price.toString())
+        const price = ethers.utils.parseEther('1')
         const trx = await contract.createMarketSale(nft.tokenId, {
             value: price
         })
@@ -71,7 +72,7 @@ function useIndex() {
     }
 
     function _parsePrice(item) {
-        return item.utils.formatUnits(marketItem.price.toString(), 'ether')
+        return ethers.utils.formatUnits(item.price.toString(), 'ether')
     }
 
     return {
