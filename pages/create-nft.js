@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useCreateNFT } from '../view_models/create_nft_view_model'
 
 export default function CreateItem() {
@@ -32,7 +33,7 @@ export default function CreateItem() {
                 />
                 {
                     fileUrl && (
-                        <img className="rounded mt-4" width="350" src={fileUrl} />
+                        <img className="rounded mt-4" width="350" src={fileUrl} alt={`Image for nft ${formInput.name}`} />
                     )
                 }
                 <button onClick={listNFTForSale} className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">

@@ -10,6 +10,7 @@ import {
 } from '../config'
 
 import NFTMarketplace from '../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json'
+import { parsePrice } from '../utils/utils'
 
 function useIndex() {
     const [nfts, _setNfts] = useState([])
@@ -36,7 +37,7 @@ function useIndex() {
         const tokenURI = await contract.tokenURI(marketItem.tokenId)
         const meta = await axios.get(tokenURI)
 
-        let price = _parsePrice(marketItem)
+        let price = parsePrice(marketItem)
 
         return _buildMarketItemDescription(marketItem, meta, price)
     }
@@ -59,8 +60,7 @@ function useIndex() {
         const provider = new ethers.providers.Web3Provider(connection)
         const signer = provider.getSigner()
         const contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
-        console.log(nft)
-        console.log(nft.price.toString())
+
         const price = ethers.utils.parseEther('1')
         const trx = await contract.createMarketSale(nft.tokenId, {
             value: price
@@ -69,10 +69,6 @@ function useIndex() {
         await trx.wait()
 
         loadNFTs()
-    }
-
-    function _parsePrice(item) {
-        return ethers.utils.formatUnits(item.price.toString(), 'ether')
     }
 
     return {

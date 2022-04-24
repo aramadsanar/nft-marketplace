@@ -63,9 +63,10 @@ export function useCreateNFT() {
         const price = ethers.utils.parseUnits(formInput.price, 'ether')
 
         let contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
+
         let listingPrice = await contract.getListingPrice()
         listingPrice = listingPrice.toString()
-        console.log('price ' + price + '\n\n\n')
+
         let transaction = await contract.createToken(url, price, {
             value: listingPrice
         })

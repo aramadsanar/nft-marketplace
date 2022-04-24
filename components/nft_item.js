@@ -1,7 +1,9 @@
-const NFTItem = (nft, onClick) => {
+/* eslint-disable @next/next/no-img-element */
+
+const NFTItem = ({ nft, onClick }) => {
     console.log(onClick)
     return (<div className="border shadow rounded-xl overflow-hidden">
-        <img src={nft.image} />
+        <img src={nft.image} alt="Image for nft item" />
         <div className="p-4">
             <p style={{ height: '64px' }} className="text-2xl font-semibold">{nft.name}</p>
             <div style={{ height: '70px', overflow: 'hidden' }}>

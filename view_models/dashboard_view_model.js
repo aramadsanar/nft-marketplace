@@ -9,6 +9,7 @@ import {
 
 import NFTMarketplace from '../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json'
 import { loaded, notLoaded } from '../locale-keys/loaded_states'
+import { parsePrice } from '../utils/utils'
 
 
 function useCreatorDashboard() {
@@ -42,13 +43,9 @@ function useCreatorDashboard() {
         const tokenURI = await contract.tokenURI(marketItem.tokenId)
         const meta = await axios.get(tokenURI)
 
-        let price = _parsePrice(marketItem)
+        let price = parsePrice(marketItem)
 
         return _buildMarketItemDescription(marketItem, meta, price)
-    }
-
-    function _parsePrice(item) {
-        return item.utils.formatUnits(marketItem.price.toString(), 'ether')
     }
 
     function _buildMarketItemDescription(marketItem, meta, price) {

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import useResellNFT from '../view_models/resell_nft_view_model'
 
 export default function ResellNFT() {
@@ -16,7 +17,7 @@ export default function ResellNFT() {
                 />
                 {
                     image && (
-                        <img className="rounded mt-4" width="350" src={image} />
+                        <img className="rounded mt-4" width="350" src={image} alt="picked nft image" />
                     )
                 }
                 <button onClick={listNFTForSale} className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
